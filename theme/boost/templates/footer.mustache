@@ -1,0 +1,309 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_boost/footer
+
+    Page footer.
+
+    Example context (json):
+    {
+        "output": {
+            "page_doc_link": "Documentation for this page",
+            "supportemail": "<a href=\"#\">Contact site support</a>",
+            "has_popover_links": true,
+            "services_support": "Services and support",
+            "login_info": "You are logged in as cute kitten",
+            "moodle_release": "90210",
+            "has_communication_links": true,
+            "communication_url": "https://element:8081/#/room/#yourroom:synapse",
+            "communication_link": "<a href=\"#\">Communication room</a>"
+        }
+    }
+}}
+
+<style>
+    /* Custom Footer Styles for Moodle - Directly in footer.mustache */
+
+    /* Genel Footer Konteyneri */
+    #page-footer {
+        background-color: #2c3e50 !important; /* Koyu lacivert/gri arka plan */
+        color: #ecf0f1 !important; /* Açık gri metin rengi */
+        padding: 40px 0 !important; /* Üst ve alttan boşluk */
+        box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1); /* Hafif üst gölge */
+        border-top: 5px solid #007bff; /* Üstte belirgin mavi çizgi */
+        position: relative; /* Butonların konumlandırılması için */
+    }
+
+    /* Footer Popover Butonları Konteyneri */
+    #page-footer [data-region="footer-container-popover"] {
+        position: absolute; /* Butonları altbilginin içinde serbestçe konumlandır */
+        bottom: 20px; /* Altbilginin altından 20px yukarıda */
+        right: 20px; /* Sağ kenardan 20px içeride */
+        display: flex;
+        gap: 10px;
+        z-index: 100; /* Diğer elemanların üzerinde olmasını sağla */
+    }
+
+    /* Footer Popover Butonları */
+    #page-footer .btn-footer-communication,
+    #page-footer .btn-footer-popover {
+        background: linear-gradient(45deg, #007bff, #0056b3) !important; /* Mavi gradient */
+        border: none !important;
+        color: white !important;
+        width: 50px;
+        height: 50px;
+        font-size: 1.5em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50% !important; /* Yuvarlak butonlar */
+        box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
+        transition: all 0.3s ease;
+    }
+
+    #page-footer .btn-footer-communication:hover,
+    #page-footer .btn-footer-popover:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0, 123, 255, 0.6);
+        background: linear-gradient(45deg, #0056b3, #007bff) !important;
+    }
+
+    /* Footer İçerik Alanı */
+    #page-footer .footer-content-popover.container {
+        background-color: #2c3e50 !important; /* Aynı arka plan rengi */
+        border-radius: 0; /* Köşe yuvarlaklığını kaldır */
+        padding: 0 15px !important; /* İç boşlukları ayarla */
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Duyarlı sütunlar */
+        gap: 20px; /* Sütunlar arası boşluk */
+        max-width: 1280px; /* Ana konteyner ile aynı genişlik */
+        margin: 0 auto; /* Ortala */
+    }
+
+    /* Her bir footer bölümü */
+    #page-footer .footer-section {
+        padding: 20px 0 !important; /* İç boşluk */
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important; /* Ayracı daha hafif yap */
+        text-align: left; /* Metin hizalaması */
+    }
+
+    /* Son bölümün alt çizgisini kaldır */
+    #page-footer .footer-section:last-of-type {
+        border-bottom: none !important;
+    }
+
+
+    /* Başlıklar ve Metinler */
+    #page-footer h5 {
+        color: #007bff !important; /* Başlıklar için ana renk */
+        margin-bottom: 15px;
+        font-weight: 600;
+        font-size: 1.2em;
+    }
+
+    #page-footer .footer-section p {
+        color: #bdc3c7 !important; /* Daha açık metin rengi */
+        font-size: 0.95em;
+        line-height: 1.6;
+    }
+
+    /* Linkler */
+    #page-footer a {
+        color: #ecf0f1 !important; /* Linkler için varsayılan metin rengi */
+        text-decoration: none !important; /* Alt çizgiyi kaldır */
+        transition: color 0.3s ease;
+    }
+
+    #page-footer a:hover {
+        color: #007bff !important; /* Hover rengi */
+        text-decoration: underline !important; /* Hover'da alt çizgi */
+    }
+
+    /* Sosyal medya ikonları */
+    #page-footer .social-icons a {
+        font-size: 1.8em;
+        margin-right: 15px;
+        color: #ecf0f1 !important;
+        transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    #page-footer .social-icons a:hover {
+        color: #007bff !important;
+        transform: scale(1.2);
+    }
+
+    /* Adres ve iletişim bilgileri */
+    #page-footer .contact-info p {
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+    }
+
+    #page-footer .contact-info i {
+        margin-right: 10px;
+        color: #007bff;
+        font-size: 1.1em;
+    }
+
+    /* Login Bilgisi */
+    #page-footer .logininfo {
+        font-size: 0.9em;
+        color: #bdc3c7 !important;
+        margin-bottom: 10px;
+    }
+
+    /* Debugging Bölümü */
+    #page-footer .footer-content-debugging {
+        background-color: #1a252f !important; /* Daha koyu arka plan */
+        padding: 15px 0 !important;
+        color: #7f8c8d !important;
+        font-size: 0.8em;
+        text-align: center;
+    }
+
+    /* Debugging içeriği (metin) */
+    #page-footer .footer-content-debugging .container-fluid {
+        max-width: 1280px; /* Ana konteyner ile aynı genişlik */
+        margin: 0 auto; /* Ortala */
+    }
+
+    /* Moodle'ın pix ikonları */
+    #page-footer .icon {
+        vertical-align: middle; /* Dikey hizalama */
+        margin-right: 5px; /* Metinden ayır */
+    }
+
+
+    /* Mobil Duyarlılık */
+    @media (max-width: 768px) {
+        #page-footer {
+            padding: 30px 0 !important;
+        }
+
+        #page-footer [data-region="footer-container-popover"] {
+            position: static; /* Mobil'de butonları akışta tut */
+            justify-content: center; /* Ortala */
+            margin-top: 20px; /* Üstten boşluk */
+            width: 100%; /* Tam genişlik */
+            text-align: center; /* Butonları ortala */
+        }
+
+        #page-footer .footer-content-popover.container {
+            grid-template-columns: 1fr; /* Tek sütun */
+            padding: 0 15px !important;
+        }
+
+        #page-footer .footer-section {
+            text-align: center; /* Ortala */
+            padding: 15px 0 !important;
+        }
+
+        #page-footer .footer-section:last-of-type {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important; /* Mobil'de son bölüme alt çizgi ekle */
+        }
+        #page-footer .footer-content-debugging {
+            padding: 10px 0 !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        #page-footer .btn-footer-communication,
+        #page-footer .btn-footer-popover {
+            width: 40px;
+            height: 40px;
+            font-size: 1.2em;
+        }
+
+        #page-footer .social-icons a {
+            font-size: 1.5em;
+            margin: 0 10px; /* Mobil'de ikonlar arası boşluk */
+        }
+    }
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<footer id="page-footer" class="footer-popover bg-white">
+    <div data-region="footer-container-popover">
+        {{#output.has_communication_links}}
+            <button onclick="window.open('{{output.communication_url}}', '_blank', 'noreferrer')" class="btn btn-icon bg-primary text-white icon-no-margin btn-footer-communication" aria-label="{{#str}}communicationroomlink, course{{/str}}">
+                {{#pix}}t/messages-o, core{{/pix}}
+            </button>
+        {{/output.has_communication_links}}
+        <button class="btn btn-icon rounded-circle bg-secondary btn-footer-popover" data-action="footer-popover" aria-label="{{#str}}showfooter, theme_boost{{/str}}">
+            {{#pix}}e/question, core{{/pix}}
+        </button>
+    </div>
+    <div class="footer-content-popover container" data-region="footer-content-popover">
+
+        <div class="footer-section">
+            <h5>Hastanemiz Hakkında</h5>
+            <p>Modern tıbbın tüm imkanlarını kullanarak, hasta odaklı ve kaliteli sağlık hizmeti sunmayı amaçlıyoruz. Deneyimli kadromuzla sağlığınız emin ellerde.</p>
+            <div class="social-icons">
+                <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+
+        <div class="footer-section">
+            <h5>Hızlı Erişim</h5>
+            <p><a href="<YOUR_DOKTOR_PANEL_URL>">Doktor Paneli</a></p>
+            <p><a href="<YOUR_BASHEKIM_PANEL_URL>">Başhekim Paneli</a></p>
+            <p><a href="<YOUR_HASTA_YONETIM_URL>">Hasta Yönetimi</a></p>
+            <p><a href="<YOUR_RANDEVULARIM_URL>">Randevularım</a></p>
+            </div>
+
+        <div class="footer-section contact-info">
+            <h5>Bize Ulaşın</h5>
+            <p><i class="fas fa-map-marker-alt"></i> Örnek Mah. Deneme Cad. No: 123, Çankaya, Ankara, Türkiye</p>
+            <p><i class="fas fa-phone-alt"></i> +90 312 123 45 67</p>
+            <p><i class="fas fa-envelope"></i> info@hastanemoodle.com</p>
+            <p><i class="fas fa-clock"></i> 7/24 Acil Servis Hizmeti</p>
+        </div>
+
+        <div class="footer-section">
+            <h5>Site Bilgisi</h5>
+            <div class="logininfo">
+                {{{ output.login_info }}}
+            </div>
+            <div class="tool_usertours-resettourcontainer">
+            </div>
+
+            {{{ output.standard_footer_html }}}
+            {{{ output.standard_end_of_body_html }}}
+            <p>{{#str}}poweredbymoodle, core{{/str}}</p>
+            {{#output.moodle_release}}
+                <p>
+                    {{#str}}version, core{{/str}} {{{ output.moodle_release }}}
+                </p>
+            {{/output.moodle_release}}
+        </div>
+    </div>
+
+    <div class="footer-content-debugging footer-dark bg-dark text-light">
+        <div class="container-fluid footer-dark-inner">
+            {{{ output.debug_footer_html }}}
+        </div>
+    </div>
+</footer>
+{{#js}}
+require(['theme_boost/footer-popover'], function(FooterPopover) {
+    FooterPopover.init();
+});
+{{/js}}
